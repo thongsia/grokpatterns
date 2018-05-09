@@ -1,0 +1,2 @@
+BLUECOATPROXY %{TIMESTAMP-ISO8601:date} %{INT:time-taken} %{IP:c-ip} %{USER:cs-username} %{DATA:cs-auth-group} %{DATA:x-exception-id} %{DATA:sc-filter-result} %{DATA:cs-categories} %{DATA:cs-Referer}%{SPACE}%{INT:cs-status} %{WORD:s-action} %{WORD:cs-method} %{DATA:rs-Content-Type} %{WORD:cs-uri-scheme} %{IPORHOST:cs-host} %{INT:cs-uri-port} %{DATA:cs-uri-path} %{DATA:cs-uri-query} %{DATA:cs-uri-extension} %{DATA:cs-User-Agent} %{IP:s-ip} %{INT:sc-bytes} %{INT:cs-bytes} %{DATA:x-virus-id} %{DATA:x-bluecoat-application-name} %{DATA:x-bluecoat-application-operation}$
+

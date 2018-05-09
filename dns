@@ -1,0 +1,13 @@
+BIND9_TIMESTAMP %{MONTHDAY}[-]%{MONTH}[-]%{YEAR} %{TIME}
+
+WINDNS %{NUMBER:log_date} %{TIME:log_time} %{WORD:dns_thread_id} %{WORD:dns_context}%{SPACE}%{WORD:dns_packet_id} %{WORD:dns_ip_protocol} %{WORD:dns_direction} %{IP:dns_client_address}%{SPACE}%{WORD:dns_xid}%{SPACE}(?:Q|R|U) ?(Q|R|U)?%{SPACE}[%{GREEDYDATA:dns_hex_flags}%{SPACE}%{WORD:dns_response}]%{SPACE}%{WORD:dns_recordtype}%{SPACE}([1-9][0-9]?)%{GREEDYDATA:dns_query_name}
+
+IPPROT TCP|UDP
+FLAGS (\+|-)?%{WORD}?
+DNSRECORD %{DATA} %{INT} IN %{WORD} %{IPORHOST};
+DNSRESPONSE response: %{WORD:[response]code} %{FLAGS:[response]flags} %{GREEDYDATA:[response]record}
+
+DNSHEADER (%{BIND9_TIMESTAMP:[query]timestamp}\s+)?client %{IP:[query]client_ip}#%{POSINT:[query]client_port}:?
+DNSQUERY %{DNSHEADER} (\(%{IPORHOST:[query]name}\):\s+)?view %{INT}: (%{IPPROT:[query]proto}:\s+)?query: %{IPORHOST:[query]name} IN %{WORD:[query]type} ((%{FLAGS:[query]flags} \(%{IP:[query]server_ip}\))|%{GREEDYDATA:responsedata})
+
+DNSLOG %{SYSLOGTIMESTAMP:logtimestamp} %{IP:logsource} ?%{IP:dest} %{SYSLOGPROG}: %{GREEDYDATA:query_message}
